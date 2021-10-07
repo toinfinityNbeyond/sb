@@ -28,7 +28,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         JPQLQuery<Board> jpqlQuery = from(board);
 
         //검색 조건이 있다면
-        if (typeArr != null && typeArr.length == 0){
+        if (typeArr != null && typeArr.length > 0){
 
             BooleanBuilder condition = new BooleanBuilder();
 
