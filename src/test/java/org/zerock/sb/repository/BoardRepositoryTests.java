@@ -13,6 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.zerock.sb.dto.BoardDTO;
 import org.zerock.sb.entity.Board;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SpringBootTest
 @Log4j2
 public class BoardRepositoryTests {
@@ -38,6 +41,24 @@ public class BoardRepositoryTests {
             BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);
 
             log.info(boardDTO);
+        });
+    }
+
+    @Test
+    public void testEx1(){
+
+        Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+
+        Page<Object[]> result = boardRepository.ex1(pageable);
+
+        log.info(result);
+
+        result.get().forEach(element -> {
+
+            Object[] arr = (Object[])element;
+
+            log.info(Arrays.toString(arr));
+
         });
     }
 
