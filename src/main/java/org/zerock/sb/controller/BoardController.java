@@ -1,7 +1,7 @@
 package org.zerock.sb.controller;
 
+import groovy.util.logging.Log4j2;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,29 +23,32 @@ public class BoardController {
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model){
 
+        //model.addAttribute("responseDTO", boardService.getList(pageRequestDTO));
+        model.addAttribute("responseDTO", boardService.getListWithReplyCount(pageRequestDTO));
 
-
-        model.addAttribute("responseDTO", boardService.getList(pageRequestDTO));
     }
 
     @GetMapping("/register")
-    public void register(){
+    public void register() {
+
     }
 
     @PostMapping("/register")
-    public String registerPost(BoardDTO boardDTO, RedirectAttributes redirectAttributes){
+    public String registerPost(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
 
         Long bno = boardService.register(boardDTO);
 
-        redirectAttributes.addFlashAttribute("result",bno);
+        redirectAttributes.addFlashAttribute("result", bno);
 
         return "redirect:/board/list";
+
     }
 
     @GetMapping("/read")
-    public void read(Long bno, PageRequestDTO pageRequestDTO, Model model ){
+    public void read(Long bno, PageRequestDTO pageRequestDTO, Model model) {
 
         model.addAttribute("dto", boardService.read(bno));
 
     }
+
 }

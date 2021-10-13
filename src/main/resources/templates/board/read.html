@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/layout2">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 
 <div class="card" layout:fragment="content">
-
     <div class="card">
         <div class="card-header">
             Board Read
@@ -13,24 +16,24 @@
             <div class="input-group mb-3">
                 <span class="input-group-text">Bno</span>
                 <input type="text" name="bno" class="form-control" readonly
-                       th:value="${dto.bno}"  >
+                       th:value="${dto.bno}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Title</span>
                 <input type="text" name="title" class="form-control" readonly
-                       th:value="${dto.title}"   >
+                       th:value="${dto.title}">
             </div>
 
             <div class="input-group mb-3">
                 <span class="input-group-text">Writer</span>
-                <input type="text" name="writer" class="form-control"  readonly
+                <input type="text" name="writer" class="form-control" readonly
                        th:value="${dto.writer}">
             </div>
 
             <div class="input-group mb-3">
                 <span class="input-group-text">RegDate</span>
                 <input type="text" name="regDate" class="form-control" readonly
-                       th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" >
+                       th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}">
             </div>
 
             <div class="input-group mb-3">
@@ -41,7 +44,8 @@
 
             <div class="input-group">
                 <span class="input-group-text">Content</span>
-                <textarea class="form-control" aria-label="With textarea" name="content" rows="4">[[${dto.content}]]</textarea>
+                <textarea class="form-control" aria-label="With textarea" name="content"
+                          rows="4">[[${dto.content}]]</textarea>
             </div>
 
             <div class="my-4">
@@ -57,10 +61,10 @@
     </div>
 </div>
 
-<th:block  layout:fragment="script">
+<th:block layout:fragment="script">
 
     <script th:inline="javascript">
-        function modify(bno){
+        function modify(bno) {
 
             const page = [[${pageRequestDTO.page}]]
             const size = [[${pageRequestDTO.size}]]
@@ -69,15 +73,15 @@
 
             let searchQuery = ''
 
-            if(type && keyword){
+            if (type && keyword) {
                 searchQuery += `&type=${type}&keyword=${keyword}`
             }
 
-            self.location=`/board/modify?bno=${bno}&page=${page}&size=${size}`+searchQuery
+            self.location = `/board/modify?bno=${bno}&page=${page}&size=${size}` + searchQuery
 
         }
 
-        function moveList(){
+        function moveList() {
 
             const page = [[${pageRequestDTO.page}]]
             const size = [[${pageRequestDTO.size}]]
@@ -86,14 +90,13 @@
 
             let searchQuery = ''
 
-            if(type && keyword){
+            if (type && keyword) {
                 searchQuery += `&type=${type}&keyword=${keyword}`
             }
 
-            self.location=`/board/list?page=${page}&size=${size}` + searchQuery
+            self.location = `/board/list?page=${page}&size=${size}` + searchQuery
 
         }
 
     </script>
-
 </th:block>

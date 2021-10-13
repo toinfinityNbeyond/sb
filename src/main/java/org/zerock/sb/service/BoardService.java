@@ -1,8 +1,9 @@
 package org.zerock.sb.service;
 
-import lombok.ToString;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.sb.dto.BoardDTO;
+import org.zerock.sb.dto.BoardListDTO;
 import org.zerock.sb.dto.PageRequestDTO;
 import org.zerock.sb.dto.PageResponseDTO;
 
@@ -13,11 +14,12 @@ public interface BoardService {
 
     PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO);
 
+    PageResponseDTO<BoardListDTO> getListWithReplyCount(PageRequestDTO pageRequestDTO);
+
     BoardDTO read(Long bno);
 
     void modify(BoardDTO boardDTO);
 
     void remove(Long bno);
-
 
 }

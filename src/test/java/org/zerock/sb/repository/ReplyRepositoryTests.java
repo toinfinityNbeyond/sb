@@ -22,11 +22,11 @@ public class ReplyRepositoryTests {
     private ReplyRepository replyRepository;
 
     @Test
-    public void insert200(){
+    public void insert200() {
 
-        IntStream.rangeClosed(1,200).forEach(i -> {
+        IntStream.rangeClosed(1, 200).forEach(i -> {
 
-            Long bno = (long)(200 - (1 % 5)); //200,199,198,196,
+            Long bno = (long)(200 - (i % 5)); //200,199,198,197,196
 
             int replyCount = (i % 5); //0,1,2,3,4
 
@@ -35,23 +35,23 @@ public class ReplyRepositoryTests {
                 Board board = Board.builder().bno(bno).build();
 
                 Reply reply = Reply.builder()
-                        .replyText("Reply...")
+                        .replyText("Reply....")
                         .replyer("replyer...")
-                        .board(board)
+                        .board(board)//bno가 아니라 board를 줘야함. Entity 값이 같으면 같은 객체로 봄. 단방향 참조
                         .build();
 
                 replyRepository.save(reply);
 
             }); //inner loop
 
-        }); // outer loop
+        }); //outet loop
 
     }
 
     @Test
-    public void testRead(){
+    public void testRead() {
 
-        long rn = 1L;
+        Long rn = 1L;
 
         Reply reply = replyRepository.findById(rn).get();
 
@@ -60,16 +60,28 @@ public class ReplyRepositoryTests {
     }
 
     @Test
-    public void testByBno(){
+    public void testByBno() {
+
         Long bno = 200L;
 
         List<Reply> replyList
-                = replyRepository.findRepliesByBoard_BnoOrderByRno(bno);
+                = replyRepository.findReplyByBoard_BnoOrderByRno(bno);
 
-        replyList.forEach(reply -> log.info(reply));
+        replyList.forEach(reply -> log.info(reply)); //ToString 호출할 때 에러발생하는 것. 이 줄 없으면 에러 안남
 
     }
 
+    @Test
+    public void testListOfBoard() {
 
+        Pageable pageable =
+                PageRequest.of(0,10, Sort.by("rno").descending());
 
+        Page<Reply> result = replyRepository.getListByBno(197L, pageable);
+
+        log.info(result.getTotalElements());
+
+        result.get().forEach(reply -> log.info(reply));
+
+    }
 }
