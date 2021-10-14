@@ -84,4 +84,35 @@ public class ReplyRepositoryTests {
         result.get().forEach(reply -> log.info(reply));
 
     }
+
+    @Test
+    public void testCountOfBoard(){
+
+        Long bno = 198L;
+
+
+        int count = replyRepository.getReplyCountOfBoard(bno);
+
+        int lastpage = (int)(Math.ceil(count /10.0));
+
+        if (lastpage == 0){
+            lastpage = 1;
+        }
+
+        //0부터 시작하는 페이지번호, 사이즈, 소트
+        Pageable pageable = PageRequest.of(lastpage -1,10);
+
+        Page<Reply> result = replyRepository.getListByBno(bno, pageable);
+
+        log.info("total:" + result.getTotalElements());
+        log.info("..." + result.getTotalPages());
+
+        result.get().forEach(reply -> {
+            log.info(reply);
+        });
+
+
+
+
+    }
 }
