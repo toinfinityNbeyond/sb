@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.sb.dto.DiaryDTO;
 import org.zerock.sb.dto.DiaryPictureDTO;
+import org.zerock.sb.dto.PageRequestDTO;
+import org.zerock.sb.dto.PageResponseDTO;
 import org.zerock.sb.entity.DiaryPicture;
 
 import java.util.List;
@@ -55,7 +57,7 @@ public class DiaryServiceTests {
     @Test
     public void tetRead() {
 
-        Long dno = 101L;
+        Long dno = 2L;
 
         DiaryDTO dto = diaryService.read(dno);
 
@@ -68,6 +70,21 @@ public class DiaryServiceTests {
 
     }
 
+    @Test
+    public void testList(){
 
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        PageResponseDTO <DiaryDTO> responseDTO
+                = diaryService.getList(pageRequestDTO);
+
+        responseDTO.getDtoList().forEach(diaryDTO -> {
+            log.info(diaryDTO);
+            log.info(diaryDTO.getTags());
+            log.info(diaryDTO.getPictures());
+            log.info("---------------------------");
+        });
+
+    }
 
 }

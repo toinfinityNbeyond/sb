@@ -50,4 +50,20 @@ public class Diary {
     @Fetch(value = FetchMode.JOIN)
     @BatchSize(size = 50)
     private Set<DiaryPicture> pictures;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
+    }
+
+    public void setPictures(Set<DiaryPicture> pictures) {
+        this.pictures = pictures;
+    }
 }

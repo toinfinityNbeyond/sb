@@ -4,12 +4,20 @@ package org.zerock.sb.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.zerock.sb.dto.DiaryDTO;
+import org.zerock.sb.dto.PageRequestDTO;
+import org.zerock.sb.dto.PageResponseDTO;
 import org.zerock.sb.entity.Diary;
 import org.zerock.sb.repository.DiaryRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,6 +34,10 @@ public class DiaryServiceImpl implements DiaryService{
 
         Diary diary = modelMapper.map(dto, Diary.class);
 
+        log.info(diary);
+        log.info(diary.getTags());
+        log.info(diary.getPictures());
+
         diaryRepository.save(diary);
 
         return diary.getDno();
@@ -41,5 +53,23 @@ public class DiaryServiceImpl implements DiaryService{
         DiaryDTO dto = modelMapper.map(diary, DiaryDTO.class);
 
         return dto;
+    }
+
+    @Override
+    public PageResponseDTO<DiaryDTO> getList(PageRequestDTO pageRequestDTO) {
+
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                Sort.by("dno").descending());
+
+        Page<Diary> result = diaryRepository.findAll(pageable);
+
+        long totalCount = result.getTotalElements();
+
+        List<DiaryDTO> dtoList
+                = result.get().map(diary -> modelMapper.map(diary,DiaryDTO.class)).collect(Collectors.toList());
+
+        return new PageResponseDTO<>(pageRequestDTO,(int)totalCount, dtoList);
     }
 }
