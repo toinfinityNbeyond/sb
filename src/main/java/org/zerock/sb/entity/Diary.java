@@ -47,7 +47,7 @@ public class Diary {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "tbl_diary_picture")
-    @Fetch(value = FetchMode.JOIN)
+    @Fetch(value = FetchMode.SELECT)
     @BatchSize(size = 50)
     private Set<DiaryPicture> pictures;
 

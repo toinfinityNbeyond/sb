@@ -17,9 +17,7 @@ import org.zerock.sb.dto.DiaryDTO;
 import org.zerock.sb.entity.Diary;
 import org.zerock.sb.entity.DiaryPicture;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -168,4 +166,27 @@ public class DiaryRepositoryTests {
         diaryRepository.save(diary);
 
     }
+
+    @Test
+    public void testWithFavorite(){
+
+        Pageable pageable = PageRequest.of(0,10, Sort.by("dno").descending());
+
+        Page<Object[]> result = diaryRepository.findWithFavoriteCount(pageable);
+
+        for (Object[] objects : result.getContent()) {
+            log.info(Arrays.toString(objects));
+        }
+    }
+
+    @Test
+    public void testListHard(){
+
+        Pageable pageable = PageRequest.of(0,10,Sort.by("dno").descending());
+
+        diaryRepository.getSearchList(pageable);
+
+    }
+
+
 }
