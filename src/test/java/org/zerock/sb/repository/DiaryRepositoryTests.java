@@ -184,7 +184,13 @@ public class DiaryRepositoryTests {
 
         Pageable pageable = PageRequest.of(0,10,Sort.by("dno").descending());
 
-        diaryRepository.getSearchList(pageable);
+        Page<Object[]> result = diaryRepository.getSearchList(pageable);
+
+        result.get().forEach( arr -> {
+                Object[] temp = (Object[]) arr;
+
+                log.info(Arrays.toString(temp));
+        });
 
     }
 
